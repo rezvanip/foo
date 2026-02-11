@@ -41,6 +41,14 @@ jobs:
           pip install kivy
           pip install -r requirements.txt
 
+      - name: Buildozer init
+        run: |
+          buildozer init
+
+      - name: Cat spec
+        run: |
+          cat buildozer.spec
+
       - name: Build Release APK
         run: |
           buildozer android release
