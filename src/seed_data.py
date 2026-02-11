@@ -19,7 +19,7 @@ def seed_database():
         password=hashlib.md5('demo'.encode()).hexdigest(),
         full_name='Demo User',
         email='demo@example.com',
-        profile_path='assets/profile.png',
+        profile_path='assets/profile.jpg',
         resume_path='assets/resume.pdf',
         bio='Experienced software developer',
         skills_text='Python, SQL, JavaScript, React'
