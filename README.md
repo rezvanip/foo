@@ -20,15 +20,15 @@ pip install -r requirements.txt
 3. Initialize database:
 
 ```bash
-   cd src
-   python3 database/init_db.py
-   python3 seed_data.py
+cd src
+python3 database/init_db.py
+python3 seed_data.py
 ```
 
 4. Run application:
 
 ```bash
-   python3 main.py
+python3 main.py
 ```
 
 Demo credentials: `demo` (username and password)
@@ -36,9 +36,9 @@ Demo credentials: `demo` (username and password)
 
 # TODOs
 
-- [ ] Designing the database diagram, app architecture (Repository pattern), creating tables, application skeleton, etc.
+- [x] Designing the database diagram, app architecture (Repository pattern), creating tables, application skeleton, etc.
 - [ ] Application UI/UX
-   - [ ] Register/Login (@)
+   - [ ] Register/Login
    - [ ] Offers screen
    - [ ] Applications screen
    - [ ] Profile screen
