@@ -1,4 +1,4 @@
-# Job Applicant
+# Job Applicant (Beta)
 
 A simple job applicant application (Assignment of University Kivy course)
 
