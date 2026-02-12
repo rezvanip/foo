@@ -84,6 +84,7 @@ class OffersScreen(Screen):
         self.offers = []
         self.dialog = None
         self.filter_dialog = None
+        self.user_id = None
         self.build_ui()
 
     def build_ui(self):
@@ -228,14 +229,13 @@ class OffersScreen(Screen):
     
     def apply_to_offer(self, offer: Offer):
         """Apply to an offer."""
-        user_id = self.manager.current_user_id if self.manager else None
         
-        if user_id is None:
+        if self.user_id is None:
             self.close_dialog(None)
             return
         
         # Check if already applied
-        existing = self.application_repo.get_by_user_and_offer(user_id, offer.id)
+        existing = self.application_repo.get_by_user_and_offer(self.user_id, offer.id)
         if existing:
             self.close_dialog(None)
             return
@@ -243,7 +243,7 @@ class OffersScreen(Screen):
         # Create application
         application = Application(
             id=0,
-            user_id=user_id,
+            user_id=self.user_id,
             offer_id=offer.id,
             status=Status.Applied
         )
