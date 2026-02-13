@@ -7,17 +7,27 @@ A simple job applicant application (Assignment of University Kivy course)
 1. Create virtual environment:
 
 ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
+python3 -m venv .venv
 ```
 
-2. Install dependencies
+2. Source the script:
+
+  - Windows:
+```console
+. .venv/bin/activate.ps1
+```
+  - Linux:
+```console
+. .venv/bin/activate
+```
+
+3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Initialize database:
+4. Initialize database:
 
 ```bash
 cd src
@@ -25,7 +35,7 @@ python3 database/init_db.py
 python3 seed_data.py
 ```
 
-4. Run application:
+5. Run application:
 
 ```bash
 python3 main.py
@@ -37,12 +47,11 @@ Demo credentials: `demo` (username and password)
 # TODOs
 
 - [x] Designing the database diagram, app architecture (Repository pattern), creating tables, application skeleton, etc.
-- [ ] Application UI/UX
-   - [ ] Register/Login
-   - [ ] Offers screen
-   - [ ] Applications screen
-   - [ ] Profile screen
+- [x] Application UI/UX
+   - [x] Register/Login
+   - [x] Offers screen
+   - [x] Applications screen
+   - [x] Profile screen
 
-- [ ] How to get file from user?
-- [ ] CI/CD (Exec, APKs artifacts)
-- [ ] Documents
+- [x] How to get file from user?
+- [x] Documents
