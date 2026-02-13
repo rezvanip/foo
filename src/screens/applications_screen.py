@@ -1,3 +1,4 @@
+"""Screen displaying user's job applications with status tracking."""
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.scrollview import MDScrollView
@@ -11,9 +12,10 @@ from repositories import ApplicationRepository, OfferRepository, CompanyReposito
 
 
 class ApplicationCard(MDCard):
-    """Card widget for displaying an application."""
+    """Card showing job application with color-coded status indicator."""
     
     def __init__(self, application: Application, offer: Offer, company: Company, **kwargs):
+        """Initialize with application, offer and company data."""
         super().__init__(**kwargs)
         self.application = application
         self.offer = offer
@@ -27,7 +29,7 @@ class ApplicationCard(MDCard):
         self.build_ui()
     
     def build_ui(self):
-        """Build the card UI."""
+        """Build card layout with title, company and status color."""
         title = MDLabel(
             text=self.offer.title,
             font_style='H6',
@@ -41,7 +43,6 @@ class ApplicationCard(MDCard):
             height=20
         )
         
-        # Status chip
         status_box = MDBoxLayout(size_hint_y=None, height=30)
         status_label = MDLabel(
             text=f"Status: {self.application.status.value.upper()}",
@@ -56,7 +57,7 @@ class ApplicationCard(MDCard):
         self.add_widget(status_box)
     
     def get_status_color(self):
-        """Get color for status."""
+        """Return RGBA color tuple based on application status."""
         status = self.application.status
         if status.value == 'applied':
             return (0.2, 0.4, 1, 1)  # Blue
@@ -70,9 +71,10 @@ class ApplicationCard(MDCard):
 
 
 class ApplicationsScreen(Screen):
-    """Screen for displaying user's applications."""
+    """Screen listing all applications submitted by current user."""
     
     def __init__(self, **kwargs):
+        """Initialize repositories and build UI."""
         super().__init__(**kwargs)
         self.application_repo = ApplicationRepository()
         self.offer_repo = OfferRepository()
@@ -81,10 +83,9 @@ class ApplicationsScreen(Screen):
         self.build_ui()
     
     def build_ui(self):
-        """Build the applications UI."""
+        """Create scrollable list layout for application cards."""
         layout = MDBoxLayout(orientation='vertical')
         
-        # Header
         header = MDBoxLayout(size_hint_y=None, height=50, padding=10)
         title = MDLabel(
             text='My Applications',
@@ -93,7 +94,6 @@ class ApplicationsScreen(Screen):
         header.add_widget(title)
         layout.add_widget(header)
         
-        # Scrollable list
         scroll = MDScrollView()
         self.applications_list = MDList(spacing=10)
         scroll.add_widget(self.applications_list)
@@ -102,7 +102,7 @@ class ApplicationsScreen(Screen):
         self.add_widget(layout)
     
     def load_applications(self):
-        """Load and display user's applications."""
+        """Fetch and display applications for current user."""
         self.applications_list.clear_widgets()
         applications = self.application_repo.get_by_user(self.user_id)
         
@@ -115,4 +115,5 @@ class ApplicationsScreen(Screen):
                     self.applications_list.add_widget(card)
 
     def on_press(self, *args, **kwargs):
+        """Refresh applications list when tab selected."""
         self.load_applications()

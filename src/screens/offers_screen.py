@@ -1,3 +1,4 @@
+"""Screen for browsing and filtering job offers with application functionality."""
 from kivy.uix.screenmanager import Screen
 from kivy.uix.image import Image
 
@@ -16,9 +17,10 @@ from repositories import OfferRepository, CompanyRepository, ApplicationReposito
 
 
 class OfferCard(MDCard):
-    """Card widget for displaying an offer."""
+    """Clickable card displaying job offer summary with company info."""
     
     def __init__(self, offer: Offer, company: Company, on_click=None, **kwargs):
+        """Initialize card with offer data and optional click handler."""
         super().__init__(**kwargs)
         self.offer = offer
         self.company = company
@@ -32,8 +34,7 @@ class OfferCard(MDCard):
         self.build_ui()
     
     def build_ui(self):
-        """Build the card UI."""
-
+        """Construct card layout with logo, title, company and salary."""
         layout = MDBoxLayout(spacing=10)
         company_logo = Image(source=self.company.logo_path, allow_stretch=True, keep_ratio=True, size_hint_x=0.1)
         layout.add_widget(company_logo)
@@ -61,22 +62,20 @@ class OfferCard(MDCard):
         ))
 
         layout.add_widget(details_layout)
-
         self.add_widget(layout)
-        
-        # Bind click
         self.bind(on_release=self.on_card_click)
     
     def on_card_click(self, instance):
-        """Handle card click."""
+        """Trigger click callback with offer and company data."""
         if self.on_click:
             self.on_click(self.offer, self.company)
 
 
 class OffersScreen(Screen):
-    """Screen for displaying job offers."""
+    """Main screen for viewing offers with filtering and application capabilities."""
     
     def __init__(self, **kwargs):
+        """Initialize repositories and build UI components."""
         super().__init__(**kwargs)
         self.offer_repo = OfferRepository()
         self.company_repo = CompanyRepository()
@@ -88,7 +87,7 @@ class OffersScreen(Screen):
         self.build_ui()
 
     def build_ui(self):
-        """Build the offers UI."""
+        """Construct screen layout with header, scrollable list and filter dialog."""
         layout = MDBoxLayout(orientation='vertical')
         
         # Header with filter button

@@ -1,3 +1,4 @@
+"""Main application screen with bottom navigation between offers, applications and profile."""
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.bottomnavigation import MDBottomNavigation, MDBottomNavigationItem
 from kivymd.uix.boxlayout import MDBoxLayout
@@ -8,20 +9,19 @@ from .profile_screen import ProfileScreen
 
 
 class MainScreen(Screen):
-    """Main screen with bottom navigation."""
+    """Primary screen containing bottom navigation with three tabs."""
     
     def __init__(self, **kwargs):
+        """Initialize and build bottom navigation layout."""
         super().__init__(**kwargs)
         self.build_ui()
     
     def build_ui(self):
-        """Build the main UI with bottom navigation."""
+        """Create bottom navigation with offers, applications and profile tabs."""
         layout = MDBoxLayout(orientation='vertical')
         
-        # Bottom Navigation
         bottom_nav = MDBottomNavigation()
         
-        # Offers Tab
         offers_item = MDBottomNavigationItem(
             name='offers',
             text='Offers',
@@ -31,7 +31,6 @@ class MainScreen(Screen):
         offers_item.bind(on_tab_press=self.offers_screen.on_press)
         offers_item.add_widget(self.offers_screen)
         
-        # Applications Tab
         applications_item = MDBottomNavigationItem(
             name='applications',
             text='Applications',
@@ -41,7 +40,6 @@ class MainScreen(Screen):
         applications_item.bind(on_tab_press=self.applications_screen.on_press)
         applications_item.add_widget(self.applications_screen)
         
-        # Profile Tab
         profile_item = MDBottomNavigationItem(
             name='profile',
             text='Profile',
@@ -59,8 +57,7 @@ class MainScreen(Screen):
         self.add_widget(layout)
     
     def on_enter(self):
-        """Called when screen is entered."""
-        # TODO: Figure out How to handle the current user id
+        """Propagate user ID to child screens and load their data."""
         self.offers_screen.user_id = self.manager.current_user_id
         self.applications_screen.user_id = self.manager.current_user_id
         self.profile_screen.user_id = self.manager.current_user_id

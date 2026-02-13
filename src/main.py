@@ -1,13 +1,14 @@
+"""Main application entry point."""
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from screens import LoginRegisterScreen, MainScreen
 
 
 class JobPortalApp(MDApp):
-    """Main application class."""
+    """Main KivyMD application managing screen navigation and theming."""
     
     def build(self):
-        """Build the app."""
+        """Initialize screen manager with login and main screens."""
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Blue"
         

@@ -1,3 +1,4 @@
+"""Screen package exposing all UI screens for the application."""
 from .login_register_screen import LoginRegisterScreen
 from .main_screen import MainScreen
 from .offers_screen import OffersScreen

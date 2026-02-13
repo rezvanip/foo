@@ -1,3 +1,4 @@
+"""Repository for user entity with authentication lookup methods."""
 from typing import Optional
 
 from .base_repository import BaseRepository
@@ -5,12 +6,14 @@ from models import User
 
 
 class UserRepository(BaseRepository[User]):
-    """Repository for User entity."""
+    """Handles database operations for user accounts with lookup by credentials."""
     
     def __init__(self):
+        """Initialize repository with User model and users table."""
         super().__init__(User, "users")
     
     def _row_to_model(self, row) -> User:
+        """Convert database row to User model instance."""
         return User(
             id=row['id'],
             username=row['username'],
@@ -24,6 +27,7 @@ class UserRepository(BaseRepository[User]):
         )
     
     def _model_to_dict(self, model: User) -> dict:
+        """Convert User model to dictionary for database operations."""
         return {
             'id': model.id,
             'username': model.username,
@@ -37,7 +41,7 @@ class UserRepository(BaseRepository[User]):
         }
     
     def get_by_username(self, username: str) -> Optional[User]:
-        """Get user by username."""
+        """Retrieve user by unique username for login authentication."""
         from database import get_db
         with get_db() as conn:
             cursor = conn.execute(
@@ -48,7 +52,7 @@ class UserRepository(BaseRepository[User]):
             return self._row_to_model(row) if row else None
     
     def get_by_email(self, email: str) -> Optional[User]:
-        """Get user by email."""
+        """Retrieve user by email address."""
         from database import get_db
         with get_db() as conn:
             cursor = conn.execute(

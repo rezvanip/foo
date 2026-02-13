@@ -1,3 +1,4 @@
+"""Repository for job offer entity with company filtering."""
 from typing import List
 
 from .base_repository import BaseRepository
@@ -5,12 +6,14 @@ from models import Offer
 
 
 class OfferRepository(BaseRepository[Offer]):
-    """Repository for Offer entity."""
+    """Handles job posting data with filtering by company."""
     
     def __init__(self):
+        """Initialize repository with Offer model and offers table."""
         super().__init__(Offer, "offers")
     
     def _row_to_model(self, row) -> Offer:
+        """Convert database row to Offer model instance."""
         return Offer(
             id=row['id'],
             company_id=row['company_id'],
@@ -22,6 +25,7 @@ class OfferRepository(BaseRepository[Offer]):
         )
     
     def _model_to_dict(self, model: Offer) -> dict:
+        """Convert Offer model to dictionary for database operations."""
         return {
             'id': model.id,
             'company_id': model.company_id,
@@ -33,7 +37,7 @@ class OfferRepository(BaseRepository[Offer]):
         }
     
     def get_by_company(self, company_id: int) -> List[Offer]:
-        """Get all offers for a specific company."""
+        """Retrieve all job offers posted by specific company."""
         from database import get_db
         with get_db() as conn:
             cursor = conn.execute(

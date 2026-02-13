@@ -1,7 +1,8 @@
+"""Base model with common attributes for all entities."""
 from dataclasses import dataclass
 
 
 @dataclass
 class BaseModel:
-    """Base class for all models with common functionality."""
+    """Abstract base providing primary key for all data models."""
     id: int

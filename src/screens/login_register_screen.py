@@ -1,3 +1,4 @@
+"""Authentication screen with tabbed login and registration forms."""
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.textfield import MDTextField
@@ -17,30 +18,28 @@ from repositories import UserRepository
 
 
 class Tab(MDFloatLayout, MDTabsBase):
-    """Base class for tabs."""
+    """Container for tab content in login/register interface."""
     pass
 
 
 class LoginRegisterScreen(Screen):
-    """Screen with tabs for login and registration."""
+    """Initial screen handling user authentication and new account creation."""
     
     def __init__(self, **kwargs):
+        """Initialize repository and build tabbed authentication interface."""
         super().__init__(**kwargs)
         self.user_repo = UserRepository()
         self.build_ui()
     
     def build_ui(self):
-        """Build the login/register UI."""
+        """Construct tabbed layout with login and registration forms."""
         layout = MDBoxLayout(orientation='vertical')
         
-        # Title
         title = MDTopAppBar(title='Job Portal')
         layout.add_widget(title)
         
-        # Tabs
         self.tabs = MDTabs()
         
-        # Login Tab
         login_tab = Tab(title='Login')
         login_layout = MDBoxLayout(orientation='vertical', padding=20, spacing=10)
         
@@ -62,16 +61,13 @@ class LoginRegisterScreen(Screen):
             on_release=self.do_login
         )
         
-        # login_layout.add_widget(MDLabel(text='', size_hint_y=0.3))
         login_layout.add_widget(self.login_username)
         login_layout.add_widget(self.login_password)
-        # login_layout.add_widget(MDLabel(text='', size_hint_y=0.1))
         login_layout.add_widget(login_button)
         login_layout.add_widget(MDLabel(text='', size_hint_y=0.3))
         
         login_tab.add_widget(login_layout)
         
-        # Register Tab
         register_tab = Tab(title='Register')
         register_layout = MDBoxLayout(orientation='vertical', padding=20, spacing=5)
         
@@ -107,19 +103,17 @@ class LoginRegisterScreen(Screen):
         self.add_widget(layout)
     
     def hash_password(self, password: str) -> str:
-        """Hash password using MD5."""
+        """Generate MD5 hash of password for storage."""
         return hashlib.md5(password.encode()).hexdigest()
     
     def do_login(self, instance):
-        """Handle login."""
+        """Validate credentials and navigate to main screen on success."""
         username = self.login_username.text
         password = self.hash_password(self.login_password.text)
         
-        # Find user by username
         user = self.user_repo.get_by_username(username)
         
         if user and user.password == password:
-            # Success - go to main screen
             self.manager.current_user_id = user.id
             self.manager.current = 'main'
 
@@ -130,7 +124,7 @@ class LoginRegisterScreen(Screen):
 
     
     def do_register(self, instance):
-        """Handle registration."""
+        """Create new user account and show success or error toast."""
         user = User(
             id=0,
             username=self.reg_username.text,
@@ -152,14 +146,14 @@ class LoginRegisterScreen(Screen):
             self.clear_register_fields(with_error=True)
     
     def clear_login_fields(self, with_error=False):
-        """Clear login fields."""
+        """Reset login form fields and optionally show error state."""
         self.login_username.text = ''
         self.login_password.text = ''
         self.login_username.error = with_error
         self.login_password.error = with_error
     
     def clear_register_fields(self, with_error=False):
-        """Clear registration fields."""
+        """Reset registration form fields and optionally show error state."""
         self.reg_username.text = ''
         self.reg_password.text = ''
         self.reg_fullname.text = ''
